@@ -1,7 +1,9 @@
 package ru.mentorbank.backoffice.services.moneytransfer;
 
 import ru.mentorbank.backoffice.dao.OperationDao;
+import ru.mentorbank.backoffice.model.Operation;
 import ru.mentorbank.backoffice.model.stoplist.JuridicalStopListRequest;
+import ru.mentorbank.backoffice.model.stoplist.PhysicalStopListRequest;
 import ru.mentorbank.backoffice.model.stoplist.StopListInfo;
 import ru.mentorbank.backoffice.model.stoplist.StopListStatus;
 import ru.mentorbank.backoffice.model.transfer.AccountInfo;
@@ -66,6 +68,11 @@ public class MoneyTransferServiceBean implements MoneyTransferService {
 		private void saveOperation() {
 			// TODO: Необходимо сделать вызов операции saveOperation и сделать
 			// соответствующий тест вызова операции operationDao.saveOperation()
+			Operation operation = new Operation();
+			//operation.setDstAccount((Account)request.getDstAccount());
+			//operation.setSrcAccount(request.getSrcAccount());
+			//---что делать с датами непонятно...
+			operationDao.saveOperation(operation);
 		}
 
 		private void transferDo() throws TransferException {
@@ -91,6 +98,12 @@ public class MoneyTransferServiceBean implements MoneyTransferService {
 				return stopListInfo;
 			} else if (accountInfo instanceof PhysicalAccountInfo) {
 				// TODO: Сделать вызов stopListService для физических лиц
+				PhysicalAccountInfo physicalAccountInfo = (PhysicalAccountInfo) accountInfo;
+				PhysicalStopListRequest request = new PhysicalStopListRequest();
+				request.setDocumentNumber(physicalAccountInfo.getDocumentNumber());
+				request.setDocumentSeries(physicalAccountInfo.getDocumentSeries());
+				StopListInfo stopListInfo = stopListService.getPhysicalStopListInfo(request);
+				return stopListInfo;
 			}
 			return null;
 		}
