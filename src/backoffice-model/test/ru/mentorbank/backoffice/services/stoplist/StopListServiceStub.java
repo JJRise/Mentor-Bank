@@ -12,8 +12,10 @@ public class StopListServiceStub implements StopListService {
 	public static final String INN_FOR_STOP_STATUS = "22222222222222";
 	public static final String INN_FOR_ASKSECURITY_STATUS = "33333333333333";
 	
-	public static final String DOC_SER_NUMBER_FOR_STOP_STATUS = "1234 5678";
-	public static final String DOC_SER_NUMBER_FOR_ASKSECURITY_STATUS = "4321 8765";
+	public static final String DOC_SERIES_FOR_STOP_STATUS = "1234";
+	public static final String DOC_NUMBER_FOR_STOP_STATUS = "123456";
+	public static final String DOC_SERIES_FOR_ASKSECURITY_STATUS = "4321";
+	public static final String DOC_NUMBER_FOR_ASKSECURITY_STATUS = "123478";
 
 	@Override
 	public StopListInfo getJuridicalStopListInfo(
@@ -35,12 +37,12 @@ public class StopListServiceStub implements StopListService {
 		//TODO: Реализовать
 		StopListInfo stopListInfo = new StopListInfo();
 		stopListInfo.setComment("Комментарий");
-		if(request.getDocumentSeries().equals(DOC_SER_NUMBER_FOR_STOP_STATUS.substring(0, 4)) &&
-		     request.getDocumentNumber().equals(DOC_SER_NUMBER_FOR_STOP_STATUS.substring(5,9))
+		if(request.getDocumentSeries().equals(DOC_SERIES_FOR_STOP_STATUS) &&
+		     request.getDocumentNumber().equals(DOC_NUMBER_FOR_STOP_STATUS)
 		     )
 				stopListInfo.setStatus(StopListStatus.STOP);
-		else if(request.getDocumentSeries().equals(DOC_SER_NUMBER_FOR_ASKSECURITY_STATUS.substring(0, 4)) &&
-				request.getDocumentNumber().equals(DOC_SER_NUMBER_FOR_ASKSECURITY_STATUS.substring(5, 9))
+		else if(request.getDocumentSeries().equals(DOC_SERIES_FOR_ASKSECURITY_STATUS) &&
+				request.getDocumentNumber().equals(DOC_NUMBER_FOR_ASKSECURITY_STATUS)
 				)
 			stopListInfo.setStatus(StopListStatus.ASKSECURITY);
 		else

@@ -1,6 +1,8 @@
 package ru.mentorbank.backoffice.services.moneytransfer;
 
 import ru.mentorbank.backoffice.dao.OperationDao;
+import ru.mentorbank.backoffice.dao.exception.OperationDaoException;
+import ru.mentorbank.backoffice.model.Account;
 import ru.mentorbank.backoffice.model.Operation;
 import ru.mentorbank.backoffice.model.stoplist.JuridicalStopListRequest;
 import ru.mentorbank.backoffice.model.stoplist.PhysicalStopListRequest;
@@ -69,10 +71,17 @@ public class MoneyTransferServiceBean implements MoneyTransferService {
 			// TODO: Ќеобходимо сделать вызов операции saveOperation и сделать
 			// соответствующий тест вызова операции operationDao.saveOperation()
 			Operation operation = new Operation();
-			//operation.setDstAccount((Account)request.getDstAccount());
-			//operation.setSrcAccount(request.getSrcAccount());
-			//---что делать с датами непон€тно...
+			Account account = new Account();
+			account.setAccountNumber(request.getDstAccount().getAccountNumber());
+			operation.setDstAccount(account);
+			account.setAccountNumber(request.getSrcAccount().getAccountNumber());
+			operation.setSrcAccount(account);
+			//что за даты в классе Operation и где их вз€ть € не пон€л.
+			try{
 			operationDao.saveOperation(operation);
+			} catch(OperationDaoException e){
+				e.printStackTrace();
+			}
 		}
 
 		private void transferDo() throws TransferException {
@@ -117,7 +126,7 @@ public class MoneyTransferServiceBean implements MoneyTransferService {
 		}
 
 		private void verifySrcBalance() throws TransferException {
-			if (!accountService.verifyBalance(request.getDstAccount()))
+			if (!accountService.verifyBalance(request.getSrcAccount()))
 				throw new TransferException(LOW_BALANCE_ERROR_MESSAGE);
 		}
 	}
