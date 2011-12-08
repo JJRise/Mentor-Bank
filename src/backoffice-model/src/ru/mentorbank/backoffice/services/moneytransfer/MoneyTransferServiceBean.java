@@ -67,7 +67,7 @@ public class MoneyTransferServiceBean implements MoneyTransferService {
 			dstStopListInfo = getStopListInfo(request.getDstAccount());
 		}
 
-		private void saveOperation() {
+		private void saveOperation() throws TransferException {
 			// TODO: Необходимо сделать вызов операции saveOperation и сделать
 			// соответствующий тест вызова операции operationDao.saveOperation()
 			Operation operation = new Operation();
@@ -81,6 +81,7 @@ public class MoneyTransferServiceBean implements MoneyTransferService {
 			operationDao.saveOperation(operation);
 			} catch(OperationDaoException e){
 				e.printStackTrace();
+				throw new TransferException("Error: Save operation: " + e.getMessage());
 			}
 		}
 
