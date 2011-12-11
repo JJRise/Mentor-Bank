@@ -76,6 +76,8 @@ public class MoneyTransferServiceBean implements MoneyTransferService {
 			operation.setDstAccount(account);
 			account.setAccountNumber(request.getSrcAccount().getAccountNumber());
 			operation.setSrcAccount(account);
+			operation.setSrcStoplistInfo(srcStopListInfo);
+			operation.setDstStoplistInfo(dstStopListInfo);
 			//что за даты в классе Operation и где их взять я не понял.
 			try{
 			operationDao.saveOperation(operation);

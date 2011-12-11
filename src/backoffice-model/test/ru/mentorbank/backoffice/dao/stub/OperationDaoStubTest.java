@@ -24,6 +24,7 @@ public class OperationDaoStubTest extends AbstractSpringTest {
 		Set<Operation> operaions = operationDao.getOperations();
 		assertOperationsAreInAskSequrityStatus(operaions);
 	}
+	
 
 	private void assertOperationsAreInAskSequrityStatus(Set<Operation> operaions) {
 		assertNotNull(operaions);
